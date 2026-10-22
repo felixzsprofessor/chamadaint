@@ -28,9 +28,7 @@
       color: var(--txt);
     }
 
-    body {
-      min-height: 100vh;
-    }
+    body { min-height: 100vh; }
 
     .app {
       max-width: 1180px;
@@ -146,6 +144,8 @@
     }
 
     tbody tr:hover td { background: rgba(31, 78, 120, 0.03); }
+    tbody tr.clickable-row { cursor: pointer; }
+    tbody tr.clickable-row:hover td { background: rgba(31, 78, 120, 0.06); }
 
     .badge {
       display: inline-block;
@@ -279,7 +279,7 @@
     </div>
   </div>
 
-  <div id="modalEvolucaoAluno" class="modal-fundo">
+  <div id="modalEvolucaoAluno" class="modal-fundo" onclick="if(event.target.id === 'modalEvolucaoAluno') fecharModalEvolucaoAluno();">
     <div class="modal-conteudo">
       <button class="modal-fechar" onclick="fecharModalEvolucaoAluno()">✕</button>
 
@@ -347,7 +347,7 @@
         const situacao = situacaoClasse(media);
 
         return `
-          <tr>
+          <tr class="clickable-row" data-id="${aluno.id}" onclick="abrirEvolucaoAluno(${aluno.id}, 'Todas as disciplinas')">
             <td>${index + 1}</td>
             <td>${aluno.nome}</td>
             <td>${aluno.turma}</td>
@@ -355,7 +355,7 @@
             <td><span class="badge ${situacao}">${situacaoTexto(media)}</span></td>
             <td>
               <div class="acao-grupo">
-                <button class="btn secondary mini" onclick="abrirEvolucaoAluno(${aluno.id}, 'Todas as disciplinas')">Evolução</button>
+                <button class="btn secondary mini" onclick="event.stopPropagation(); abrirEvolucaoAluno(${aluno.id}, 'Todas as disciplinas')">Evolução</button>
               </div>
             </td>
           </tr>
